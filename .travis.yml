@@ -1,11 +1,32 @@
 branches:
   except:
+  # Don't run CI builds for bors' temporary branches
   - /.*(.tmp)$/
 
 language: rust
 
 matrix:
   include:
+  # Various code verification
+  #
+  # Includes clippy and rustfmt
+  - os: 
+    - osx
+    - linux
+    rust: 1.31.0
+    before_install:
+    - rustup component add clippy
+    script:
+    - cargo clippy --features "serde slog std v1 v3 v4 v5"
+  # Various code verification
+  #
+  # Includes clippy and rustfmt
+  - os: windows
+    rust: 1.31.0
+    before_install:
+    - rustup component add clippy
+    script:
+    - cargo clippy --features "guid serde slog std v1 v3 v4 v5"
   - os: osx
     rust: nightly
   - rust: nightly
@@ -31,10 +52,8 @@ matrix:
       - cargo web build --features "v5 wasm-bindgen"
   - rust: stable
     before_script:
-    - rustup component add clippy-preview
     - rustup target add wasm32-unknown-unknown
     script:
-    - cargo clippy --features "v1 v3 v4 v5 slog"
     - cargo build --target wasm32-unknown-unknown --features "v3 wasm-bindgen"
     - cargo build --target wasm32-unknown-unknown --features "v4 wasm-bindgen"
     - cargo build --target wasm32-unknown-unknown --features "v5 wasm-bindgen"
