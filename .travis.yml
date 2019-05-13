@@ -88,6 +88,7 @@ script:
 - cargo test --features "slog"
 - cargo test --features "serde std v1 v3 v4 v5"
 - |
+        rustup toolchain list;
         if [ $(rustup toolchain list | grep "^nightly" | cut -d "-" -f 1) == "nightly" ]; then;
         cargo bench --no-default-features;
         cargo bench;
