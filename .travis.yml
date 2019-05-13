@@ -98,6 +98,8 @@ script:
         cargo bench --features "v5";
         cargo bench --features "slog";
         cargo bench --features "serde std v1 v3 v4 v5";
+        elif
+        return true
         fi
 
 sudo: false
