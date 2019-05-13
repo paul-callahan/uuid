@@ -35,14 +35,10 @@ matrix:
     - cargo clippy --features "guid serde slog std v1 v3 v4 v5"
     - cargo fmt --all -- --check
 
-  - os: osx
-    rust: nightly
   - rust: nightly
     before_script:
     - cargo install cargo-web
     script:
-    - cargo test --features "serde std v1 v3 v4 v5"
-    - cargo bench --features "serde std v1 v3 v4 v5"
     - cargo web build --features "v3 stdweb"
     - cargo web build --features "v4 stdweb"
     - cargo web build --features "v5 stdweb"
@@ -63,9 +59,6 @@ matrix:
     - cargo build --target wasm32-unknown-unknown --features "v3 wasm-bindgen"
     - cargo build --target wasm32-unknown-unknown --features "v4 wasm-bindgen"
     - cargo build --target wasm32-unknown-unknown --features "v5 wasm-bindgen"
-  - rust: 1.31.0
-    script:
-    - cargo test --features "serde std v4"
 
 notifications:
   email:
@@ -76,13 +69,17 @@ os:
   - osx
 
 rust:
+- 1.31.0
 - stable
 - beta
 - nightly
 
 script:
 - cargo test --no-default-features
-- cargo test
+- cargo bench --no-default-features
+
+
+- cargo test 
 - cargo test --features "serde"
 - cargo test --features "v1"
 - cargo test --features "v3"
@@ -90,5 +87,17 @@ script:
 - cargo test --features "v5"
 - cargo test --features "slog"
 - cargo test --features "serde std v1 v3 v4 v5"
+- |
+        if [ $(rustup toolchain list | grep "^nightly" | cut -d "-" -f 1) == "nightly" ]; then;
+        cargo bench --no-default-features;
+        cargo bench;
+        cargo bench --features "serde";
+        cargo bench --features "v1";
+        cargo bench --features "v3";
+        cargo bench --features "v4";
+        cargo bench --features "v5";
+        cargo bench --features "slog";
+        cargo bench --features "serde std v1 v3 v4 v5";
+        fi
 
 sudo: false
