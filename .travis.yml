@@ -24,7 +24,7 @@ matrix:
     - rustup component add clippy
     - rustup component add rustfmt
     script:
-    - cargo clippy --features "serge slog std v1 v3 v4 v5"
+    - cargo clippy --features "serde slog std v1 v3 v4 v5"
     - cargo fmt --all -- --check
   - os: windows
     rust: 1.31.0
@@ -39,10 +39,8 @@ matrix:
     rust: nightly
   - rust: nightly
     before_script:
-    - rustup component add rustfmt-preview
     - cargo install cargo-web
     script:
-    - cargo fmt --all -- --check
     - cargo test --features "serde std v1 v3 v4 v5"
     - cargo bench --features "serde std v1 v3 v4 v5"
     - cargo web build --features "v3 stdweb"
