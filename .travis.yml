@@ -10,23 +10,31 @@ matrix:
   # Various code verification
   #
   # Includes clippy and rustfmt
-  - os: 
-    - osx
-    - linux
+  - os: osx
     rust: 1.31.0
     before_install:
     - rustup component add clippy
+    - rustup component add rustfmt
     script:
     - cargo clippy --features "serde slog std v1 v3 v4 v5"
-  # Various code verification
-  #
-  # Includes clippy and rustfmt
+    - cargo fmt --all -- --check
+  - os: linux
+    rust: 1.31.0
+    before_install:
+    - rustup component add clippy
+    - rustup component add rustfmt
+    script:
+    - cargo clippy --features "serge slog std v1 v3 v4 v5"
+    - cargo fmt --all -- --check
   - os: windows
     rust: 1.31.0
     before_install:
     - rustup component add clippy
+    - rustup component add rustfmt
     script:
     - cargo clippy --features "guid serde slog std v1 v3 v4 v5"
+    - cargo fmt --all -- --check
+
   - os: osx
     rust: nightly
   - rust: nightly
