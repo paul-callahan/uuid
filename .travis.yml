@@ -85,7 +85,7 @@ script:
 - cargo test --features "slog"
 - cargo test --features "serde std v1 v3 v4 v5"
 - |
-  if [[ $(rustup default | cut -d ' ' -f 1) == 'nightly' ]]
+  if [[ $(rustup default | cut -d ' ' -f 1) == 'nightly' ]]; then
         cargo bench
         cargo bench --features 'serde'
         cargo bench --features 'v1'
