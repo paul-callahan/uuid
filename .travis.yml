@@ -32,6 +32,7 @@ matrix:
     - rustup component add clippy
     - rustup component add rustfmt
     script:
+    - rustup default
     - cargo clippy --features "guid serde slog std v1 v3 v4 v5"
     - cargo fmt --all -- --check
 
