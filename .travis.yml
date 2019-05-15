@@ -76,7 +76,7 @@ rust:
 
 script:
 - |
-        if [[ $(rustup default | cut -d '-' -f 1) != '1.31.0' ]]; then
+  if [[ $(rustup default | cut -d '-' -f 1) != '1.31.0' ]]; then
     cargo test --no-default-features
   fi
 - cargo test 
