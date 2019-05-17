@@ -10,7 +10,16 @@ matrix:
   # Various code verification
   #
   # Includes clippy and rustfmt
-  - os: osx
+  - before_cache:
+    - rm -rfv target/debug/incremental/{uuid,build_script_build}-*
+    - rm -rfv target/debug/.fingerprint/uuid-*
+    - rm -rfv target/debug/build/uuid-*
+    - rm -rfv target/debug/deps/libuuid-*
+    - rm -rfv target/debug/deps/uuid-*
+    - rm -rfv target/debug/{uuid,libuuid}.d
+    - cargo clean -p uuid
+    cache: cargo
+    os: osx
     rust: 1.31.0
     before_install:
     - rustup component add clippy
@@ -99,4 +108,5 @@ script:
         cargo bench --features 'slog'
         cargo bench --features 'serde std v1 v3 v4 v5'
   fi
+
 sudo: false
